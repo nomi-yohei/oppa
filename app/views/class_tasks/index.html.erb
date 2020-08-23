@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Class Tasks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start time</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @class_tasks.each do |class_task| %>
+      <tr>
+        <td><%= class_task.start_time %></td>
+        <td><%= link_to 'Show', class_task %></td>
+        <td><%= link_to 'Edit', edit_class_task_path(class_task) %></td>
+        <td><%= link_to 'Destroy', class_task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Class Task', new_class_task_path %>

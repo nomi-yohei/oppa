@@ -1,0 +1,22 @@
+<%= form_with(model: class_task, local: true) do |form| %>
+  <% if class_task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(class_task.errors.count, "error") %> prohibited this class_task from being saved:</h2>
+
+      <ul>
+      <% class_task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :start_time %>
+    <%= form.datetime_select :start_time %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
