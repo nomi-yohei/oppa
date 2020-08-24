@@ -1,12 +1,14 @@
 class Public::CentersController < ApplicationController
 	def create
 		if current_user.centers.find_by(class_task_id: params[:center][:class_task_id]).present?
+			flash[:notcie] ="選択した教科は既に履修済みです"
 		else
 		@center =Center.new(order_params)
 		@center.user = current_user
-		@center.save
+		if @center.save
 		end
-		redirect_to public_users_path
+		end
+		redirect_to request.referer
 
 
 	end

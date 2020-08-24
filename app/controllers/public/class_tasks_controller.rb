@@ -7,6 +7,6 @@ class Public::ClassTasksController < ApplicationController
   end
 
   def show
+  	@task =TaskContent.find_by(task_times: "2020-09-01")
   end
-  
 end

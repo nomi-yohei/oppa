@@ -1,2 +1,8 @@
 <h1>Public::ClassTasks#show</h1>
 <p>Find me in app/views/public/class_tasks/show.html.erb</p>
+<%# binding.pry %>
+<% if @task.task_times.to_s == params[:id] %>
+<%= @task.content %>
+<% else %>
+本日授業は存在しません
+<% end %>
