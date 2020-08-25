@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'homes#top'
+  get "homes/about" =>"homes#about" ,as: "about"
   resources :class_tasks
   namespace :public do
      resource :users, only: [:show]
@@ -12,6 +14,8 @@ Rails.application.routes.draw do
 
 
   namespace :admin do
+    resources :class_tasks, only:[:new,:create,:update]
+    resources :users,only:[:index]
       devise_for :admin_users, controllers: {
       sessions: 'admin/admin_users/sessions',
       registrations: 'admin/admin_users/registrations',

@@ -11,11 +11,11 @@ ClassTask.create!(
             teacher_name: "佐藤 公俊",
             name: "サプライチェーンマネジメント2",
     )
-# ClassTask.create!(
-# 			id: 2,
-#             teacher_name: "佐藤 公俊",
-#             name: "数理的計画研究室",
-#     )
+ClassTask.create!(
+			id: 2,
+            teacher_name: "佐藤 公俊",
+            name: "数理的計画研究室",
+    )
 TaskContent.create!(
 	[
 		{
@@ -32,7 +32,23 @@ TaskContent.create!(
 		}
 	]
 	)
-# AdminUser.create!(
-# 	email: "a@bc",
-# 	password:"123321"
-# )
+TaskContent.create!(
+	[
+		{
+			content: "1回目の授業はこんな内容を行なっていきます",
+			name: "実験 1回目",
+			class_task_id: 2,
+			task_times: "2020/09/02"
+		},
+			{
+			content: "2回目の授業はこんな内容を行なっていきます",
+			name: "実験 2回目",
+			class_task_id: 2,
+			task_times: "2020/09/09"
+		}
+	]
+	)
+AdminUser.create!(
+	email: "a@bc",
+	password:"123321"
+)

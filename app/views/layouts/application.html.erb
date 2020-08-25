@@ -8,8 +8,63 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
+  <% if user_signed_in? %>
+  <div class="container">
+    <header class="navbar navbar-fixed-top navbar-inverse">
+    <nav class='nav navbar-nav navbar-left' style="margin-left: 30px;">
+      <%= link_to root_path do %>
+      <span style='color: white;font-size: 30px;'>LOGO</span>
+      <% end %>
+    </nav>
+    <nav>
+      <ul class="nav navbar-nav navbar-right" style="margin-right: 30px;">
+        <li><%= link_to 'マイページ',public_users_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
+          <li><%= link_to "授業日程" ,public_class_tasks_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
+           <li><%= link_to 'カート', class: 'glyphicon glyphicon-edit sign_up' %></li>
+        <li>
+             <%= link_to"logout",destroy_user_session_path ,method: :delete,class: "glyphicon glyphicon-share" %>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <% elsif admin_admin_user_signed_in? %>
+        <header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <nav class='nav navbar-nav navbar-left' >
+      <%= link_to root_path do %>
+      <span style='color: white;font-size: 30px;'>Nacanocake</span>
+      <% end %>
+    </nav>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to '授業者一覧',admin_users_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
+          <li><%= link_to '授業追加', new_admin_class_task_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
+          <li><%= link_to 'ログアウト', destroy_admin_admin_user_session_path,method: :delete ,class: 'glyphicon glyphicon-log-in sign_in'%></li>
+        </ul>
+    </nav>
+  </div>
+</header>s
+          <% else %>
+        <header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <nav class='nav navbar-nav navbar-left' >
+      <%= link_to root_path do %>
+      <span style='color: white;font-size: 30px;'>Nacanocake</span>
+      <% end %>
+    </nav>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to '教授紹介',about_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
+          <li><%= link_to '新規登録', new_user_registration_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
+          <li><%= link_to 'ログイン', new_user_session_path ,class: 'glyphicon glyphicon-log-in sign_in'%></li>
+        </ul>
+    </nav>
+  </div>
+</header>s
+<% end %>
   <body>
+    <div class="opa">
     <%= yield %>
+     </div>
   </body>
 </html>

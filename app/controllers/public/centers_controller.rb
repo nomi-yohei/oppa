@@ -1,4 +1,5 @@
 class Public::CentersController < ApplicationController
+	before_action :authenticate_user!
 	def create
 		if current_user.centers.find_by(class_task_id: params[:center][:class_task_id]).present?
 			flash[:notcie] ="選択した教科は既に履修済みです"

@@ -1,4 +1,5 @@
 class Public::ClassTasksController < ApplicationController
+	before_action :authenticate_user!
   def index
   	@center =Center.all
   	@p =ClassTask.first
@@ -7,6 +8,7 @@ class Public::ClassTasksController < ApplicationController
   end
 
   def show
-  	@task =TaskContent.find_by(task_times: "2020-09-01")
+    @id =params[:id]
+  	@task =TaskContent.find_by(task_times: @id)
   end
 end

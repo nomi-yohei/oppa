@@ -1,10 +1,43 @@
-<h1>Public::Users#show</h1>
-<p>Find me in app/views/public/users/show.html.erb</p>
-<%= flash[:notice] %>
-<%= current_user.name %>
+<div class="container">
+	<%= flash[:notice] %>
+	<h2>maypage</h2>
+	<h3>
+		登録情報
+		<%#= link_to "編集する", edit_end_users_path,method: :get , class: "btn btn-success ml2" %>
+		
+	</h3>
+	<div class="row">
+	<div class="col-xs-10">
 
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="col-xs-3 p">氏名</td>
+				<td style="text-align: center;"><%= @end_user.name %></td>
+			</tr>
+			<tr>
+				<td class="col-xs-3 p">学籍番号</td>
+				<td style="text-align: center;"><%= @end_user.my_number %></td>
+			</tr>
+			<tr>
+				<td class="col-xs-3 p">学年</td>
+				<td style="text-align: center;"><%= @end_user.my_grade %>年</td>
+			</tr>
+		</tbody>
+	</table>
+	<%#= link_to "配送先一覧" ,addresses_path ,class:"btn btn-success ml1" %>
+	<%#= link_to "授業日程" ,public_class_tasks_path ,class:"btn btn-success ml1" %>
+	<%#= link_to "パスワード変更" ,edit_end_user_registration_path ,class:"btn btn-success ml1" %>
+	</div>
+	
+</div>
+</div>
 
-
+<h2>履修しているかもく</h2>
 <% @tasks.each do |cart| %>
 	<%= cart.class_task.name %>$</td>
-	<% end %>
+<% end %>
