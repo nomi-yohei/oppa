@@ -1,8 +1,37 @@
 <h1>Public::ClassTasks#show</h1>
 <p>Find me in app/views/public/class_tasks/show.html.erb</p>
 <%# binding.pry %>
-<% if @task.task_times.to_s == params[:id] %>
-<%= @task.content %>
-<% else %>
-本日授業は存在しません
-<% end %>
+s
+<div class="container">
+		<div class="row">
+			<% if @task != nil %>
+				<%= @task.content %>
+				<h2><strong>時間内に押されてない限り出席とはみなしませんまた、出席の変更はできません</strong></h2>
+				<% if Attendence.find_by(user_id: current_user.id,task_content_id: @task.id).present? %>
+					<% @a =Attendence.find_by(user_id: current_user.id,task_content_id: @task.id) %>
+					既に出席確認しました
+					<% if @a.is_attended == true %>
+						出席済みです
+					<% else %>
+						欠席
+					<% end %>
+				<% elsif @task.start_time.to_datetime.strftime('%Y/%m/%d %H:%M:%S') > Time.current.in_time_zone('Tokyo').to_datetime.strftime('%Y/%m/%d %H:%M:%S') %>
+					まだ授業時間ではないため出席管理は行えません。
+				<% elsif (@task.start_time.to_datetime.strftime('%Y/%m/%d %H:%M:%S') > Time.current.in_time_zone('Tokyo').to_datetime.strftime('%Y/%m/%d %H:%M:%S') || Time.current.in_time_zone('Tokyo').to_datetime.strftime('%Y/%m/%d %H:%M:%S') > @task.finish_time.to_datetime.strftime('%Y/%m/%d %H:%M:%S')) %>
+					本日の出席管理は終わりました。欠席扱いとします
+				<% else %>
+					<%= form_with(model:Attendence.new,url:public_attendences_path,method: :post,local: true) do |f| %>
+						<%= f.hidden_field :task_content_id, value: @task.id %>
+						<%= f.hidden_field :user_id, value: current_user.id%>
+						<%= f.label :出席 %>
+						<%= f.radio_button :is_attended, :true %>
+						<%= f.label :欠席 %>
+						<%= f.radio_button :is_attended, :false %>
+						<%= f.submit :出席確認する %>
+					<% end %>
+				<% end %>
+			<% else %>
+				本日授業は存在しません
+			<% end %>
+		</div>
+</div>

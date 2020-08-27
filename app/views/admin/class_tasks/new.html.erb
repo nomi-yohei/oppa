@@ -5,6 +5,12 @@
 <%= f.text_field :name %>
 <%= f.label :teacher_name, "教授名" %>
 <%= f.text_field :teacher_name %>
-<%= f.date_field :times, value: Time.now %>
+<%= f.date_field :times, value: Time.now %><br>
+<%#= f.hidden_field :start  %>
+授業開始時間
+<%= f.datetime_field :start %>
+<br>
+授業終了時間
+<%= f.datetime_field :finish %>
 <%= f.submit :新規登校 %>
 <% end %>

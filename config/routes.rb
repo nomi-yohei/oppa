@@ -7,6 +7,7 @@ Rails.application.routes.draw do
      resources :class_tasks,only: [:index,:show]
      resources :centers,only: [:create,:update,:destory]
        post "centers/all_up", to: "centers#all_up",as: "all_up"
+     resources :attendences,only: [:create,:update]
   end
   # devise_for :admin_users
   # devise_for :users

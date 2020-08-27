@@ -5,6 +5,8 @@ class CreateTaskContents < ActiveRecord::Migration[5.2]
       t.integer :class_task_id
       t.string :name
       t.date :task_times
+      t.datetime :start_time,null: false 
+      t.datetime :finish_time,null: false 
       t.timestamps
     end
   end

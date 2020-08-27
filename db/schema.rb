@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_24_071445) do
+ActiveRecord::Schema.define(version: 2020_08_26_030558) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -22,6 +22,14 @@ ActiveRecord::Schema.define(version: 2020_08_24_071445) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "attendences", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "task_content_id"
+    t.boolean "is_attended", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "centers", force: :cascade do |t|
@@ -46,6 +54,8 @@ ActiveRecord::Schema.define(version: 2020_08_24_071445) do
     t.integer "class_task_id"
     t.string "name"
     t.date "task_times"
+    t.datetime "start_time", null: false
+    t.datetime "finish_time", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
