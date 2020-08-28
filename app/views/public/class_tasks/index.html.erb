@@ -1,42 +1,33 @@
-<h1>Public::ClassTasks#index</h1>
-<p>Find me in app/views/public/class_tasks/index.html.erb</p>
-
+index
 <div class="container">
-<%= flash[:notice] %>
-
-<%= form_with(model:@center, url:public_centers_path,method: :post ,local:true) do |f|%>
-<%#= form_with(model:@order, url: order_confirm_path,method: :post,local: true) do |f| %>
-   <ul style="list-style:none;">
-     <li><%= @p.name %><%= f.radio_button :class_task_id, 1,checked: true%></li>
-   </ul>
- <%= f.submit "片方のみ履修している"%>
-<% end %>
-<%= link_to "両方とも履修している" ,public_all_up_path ,method: :post,class:"btn btn-success" %>
-
-</div>
-<div class ="container" style="margin-top: 30px;">
-<%= month_calendar events: @class_task do |date| %>
-      <%# if date >= Date.today %>
-        <%= link_to public_class_task_path(date) do %>
-          <div class="date-day">
-            <%= date.day %><br>
-            <% TaskContent.where(task_times: date).each do |f| %>
-            <%= f.name %>
-            <% end %>
-          </div class="seet-count">
-          <div>
-            <% end %>
-          </div>
-        <%# end %>
-      <%# else %>
-        <div class="date-day">
-          <%#= date.day %>
-        </div>
-        <div class="seet-count">
-          <%# if reservation.count != 0 %>
-          <%#= reservation_count(reservation) %>
-          <%# end %>
-        </div>
-      <%# end %>
+  <% if !TaskContent.present? %>
+    <%= form_with(model:@center, url:public_centers_path,method: :post ,local:true) do |f|%>
+      <ul style="list-style:none;">
+        <% ClassTask.all.each do |status| %>
+          <li><%= f.radio_button :class_task_id, status.id%><%= status.name %></li>>
+        <% end %>
+      </ul>
+      <%= f.submit "1ずつ履修登録します"%>
     <% end %>
-  </div>
+    <%= link_to "全て履修している" ,public_all_up_path ,method: :post,class:"btn btn-success" %>
+  <% end %>
+</div>
+
+
+
+
+<div class ="container" style="margin-top: 30px;">
+  <%= month_calendar events: @class_task do |date| %>
+    <%= link_to public_class_task_path(date) do %>
+      <div class="date-day">
+        <%= date.day %><br>
+        <% TaskContent.where(task_times: date).each do |f| %>
+          <% if current_user.attendences.present? %>
+            <% @attend = Attendence.find_by(user_id: current_user,task_content_id: f.id) %>
+            <%= @attend.task_content.name %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

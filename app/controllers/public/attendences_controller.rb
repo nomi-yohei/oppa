@@ -1,7 +1,6 @@
 class Public::AttendencesController < ApplicationController
 	def create
 		@attend =Attendence.new(attend_params)
-		binding.pry
 		@attend.save
 		redirect_to request.referer
 	end

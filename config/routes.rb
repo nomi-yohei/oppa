@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   root 'homes#top'
   get "homes/about" =>"homes#about" ,as: "about"
-  resources :class_tasks
   namespace :public do
      resource :users, only: [:show]
      resources :class_tasks,only: [:index,:show]
@@ -15,7 +14,8 @@ Rails.application.routes.draw do
 
 
   namespace :admin do
-    resources :class_tasks, only:[:new,:create,:update]
+    get 'homes/top'
+    resources :class_tasks, only:[:new,:create,:update,:show]
     resources :users,only:[:index]
       devise_for :admin_users, controllers: {
       sessions: 'admin/admin_users/sessions',
@@ -23,8 +23,6 @@ Rails.application.routes.draw do
       passwords: 'admin/admin_users/passwords'
     }
   end
-
-
     scope module: 'public' do
     devise_for :users, controllers: {
       sessions: 'public/users/sessions',

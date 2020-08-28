@@ -1,16 +1,13 @@
-<h1>Public::ClassTasks#show</h1>
-<p>Find me in app/views/public/class_tasks/show.html.erb</p>
-<%# binding.pry %>
-s
+show
 <div class="container">
-		<div class="row">
-			<% if @task != nil %>
-				<%= @task.content %>
-				<h2><strong>時間内に押されてない限り出席とはみなしませんまた、出席の変更はできません</strong></h2>
-				<% if Attendence.find_by(user_id: current_user.id,task_content_id: @task.id).present? %>
-					<% @a =Attendence.find_by(user_id: current_user.id,task_content_id: @task.id) %>
-					既に出席確認しました
-					<% if @a.is_attended == true %>
+	<div class="row">
+		<% if @task != nil %>
+			<%= @task.content %>
+			<h2><strong>時間内に押されてない限り出席とはみなしませんまた、出席の変更はできません</strong></h2>
+				<% @attend =Attendence.find_by(user_id: current_user.id,task_content_id: @task.id) %>
+				<% if @attend.is_attended != nil %>
+						既に出席確認しました
+					<% if @attend.is_attended == true %>
 						出席済みです
 					<% else %>
 						欠席
@@ -31,7 +28,7 @@ s
 					<% end %>
 				<% end %>
 			<% else %>
-				本日授業は存在しません
+				履修されている授業は存在しません
 			<% end %>
 		</div>
 </div>

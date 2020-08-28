@@ -25,9 +25,9 @@ ActiveRecord::Schema.define(version: 2020_08_26_030558) do
   end
 
   create_table "attendences", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "task_content_id"
-    t.boolean "is_attended", default: false, null: false
+    t.integer "user_id", null: false
+    t.integer "task_content_id", null: false
+    t.boolean "is_attended"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
