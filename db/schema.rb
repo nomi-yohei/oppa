@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 2020_08_26_030558) do
   end
 
   create_table "centers", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "class_task_id"
+    t.integer "user_id", null: false
+    t.integer "class_task_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["class_task_id"], name: "index_centers_on_class_task_id"
@@ -51,9 +51,9 @@ ActiveRecord::Schema.define(version: 2020_08_26_030558) do
 
   create_table "task_contents", force: :cascade do |t|
     t.text "content"
-    t.integer "class_task_id"
-    t.string "name"
-    t.date "task_times"
+    t.integer "class_task_id", null: false
+    t.string "name", null: false
+    t.date "task_times", null: false
     t.datetime "start_time", null: false
     t.datetime "finish_time", null: false
     t.datetime "created_at", null: false

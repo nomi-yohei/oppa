@@ -1,18 +1,15 @@
 class Public::CentersController < ApplicationController
 	before_action :authenticate_user!
 	def create
-		if current_user.centers.find_by(class_task_id: params[:center][:class_task_id]).present?
-			flash[:notcie] ="選択した教科は既に履修済みです"
-		else
-			@center =Center.new(order_params)
-			@center.user = current_user
-			if @center.save
-				@center.class_task.task_contents.each do |f|
-					Attendence.create!(
-					task_content_id: f.id,
-					user_id: current_user.id,
-					)
-				end
+		@center =Center.new(order_params)
+		@center.user = current_user
+		if @center.save
+			@center.class_task.task_contents.each do |f|
+				Attendence.create!(
+				task_content_id: f.id,
+				user_id: current_user.id,
+				is_attended: false
+				)
 			end
 		end
 		redirect_to request.referer

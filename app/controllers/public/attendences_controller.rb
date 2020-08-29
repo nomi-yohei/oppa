@@ -1,8 +1,8 @@
 class Public::AttendencesController < ApplicationController
-	def create
-		@attend =Attendence.new(attend_params)
-		@attend.save
-		redirect_to request.referer
+	def update
+		@attend =Attendence.find(params[:id])
+		@attend.update(attend_params)
+		redirect_to public_class_task_path(@attend)
 	end
 	private
 	def attend_params

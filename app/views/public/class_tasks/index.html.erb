@@ -1,33 +1,48 @@
-index
+
 <div class="container">
-  <% if !TaskContent.present? %>
-    <%= form_with(model:@center, url:public_centers_path,method: :post ,local:true) do |f|%>
-      <ul style="list-style:none;">
-        <% ClassTask.all.each do |status| %>
-          <li><%= f.radio_button :class_task_id, status.id%><%= status.name %></li>>
-        <% end %>
-      </ul>
-      <%= f.submit "1ずつ履修登録します"%>
-    <% end %>
-    <%= link_to "全て履修している" ,public_all_up_path ,method: :post,class:"btn btn-success" %>
-  <% end %>
-</div>
-
-
-
-
-<div class ="container" style="margin-top: 30px;">
-  <%= month_calendar events: @class_task do |date| %>
-    <%= link_to public_class_task_path(date) do %>
-      <div class="date-day">
-        <%= date.day %><br>
-        <% TaskContent.where(task_times: date).each do |f| %>
-          <% if current_user.attendences.present? %>
-            <% @attend = Attendence.find_by(user_id: current_user,task_content_id: f.id) %>
-            <%= @attend.task_content.name %>
+  <div class="row">
+    <div class="col-xs-4">
+      <% if TaskContent.present? %>
+        <div style="margin: 75px 0px;">
+          <%= form_with(model:@center, url:public_centers_path,method: :post ,local:true) do |f|%>
+            <% ClassTask.all.each do |status| %>
+              <% if !Center.where(user_id:current_user ,class_task_id: status.id) %>
+              <span><strong style="font-size: 20px;">下記から履修したものをお選びください</strong></span>
+                <%= f.radio_button :class_task_id, status.id%><%= status.name %><br>
+              <% end %>
+            <% end %>
+            <% if Center.all.count != ClassTask.all.count %>
+              <%= f.submit "1ずつ履修登録します"%>
+            <% end %>
           <% end %>
+        </div>
+        <% if !current_user.centers.present? %>
+          <div style="margin-top: 50px;">全て履修された方はしたからお願いします<br>
+            <%= link_to "全て履修している" ,public_all_up_path ,method: :post,class:"btn btn-success plp" %>
+          </div>
+        <% else %>
+          <span><strong style="font-size: 20px;">下記が履修科目です</strong></span><br>
+            <% current_user.centers.all.each do |f| %>
+              <%= f.class_task.name %>
+            <% end %>
+          <% end %>
+      <% end %>
+    </div>
+    <div class="col-xs-8">
+      <%= month_calendar events: @class_task do |date| %>
+        <%= link_to public_class_task_path(date) do %>
+          <div class="date-day">
+            <%= date.day %><br>
+            <% TaskContent.where(task_times: date).each do |f| %>
+              <% if current_user.attendences.present? %>
+                <% @attend = Attendence.find_by(user_id: current_user,task_content_id: f.id) %>
+                <%# binding.pry %>
+                <%= @attend.task_content.name %>
+              <% end %>
+            <% end %>
+          </div>
         <% end %>
-      </div>
-    <% end %>
-  <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>

@@ -2,22 +2,20 @@ show
 <div class="container">
 	<div class="row">
 		<% if @task != nil %>
-			<%= @task.content %>
 			<h2><strong>時間内に押されてない限り出席とはみなしませんまた、出席の変更はできません</strong></h2>
-				<% @attend =Attendence.find_by(user_id: current_user.id,task_content_id: @task.id) %>
-				<% if @attend.is_attended != nil %>
-						既に出席確認しました
-					<% if @attend.is_attended == true %>
-						出席済みです
-					<% else %>
-						欠席
-					<% end %>
-				<% elsif @task.start_time.to_datetime.strftime('%Y/%m/%d %H:%M:%S') > Time.current.in_time_zone('Tokyo').to_datetime.strftime('%Y/%m/%d %H:%M:%S') %>
+			<% if Date.today == @task.task_times %>
+				<h2><strong>本日の履修時間は<span style="color: red;"><%= @task.start_time.to_datetime.strftime('%Y/%m/%d %H:%M:%S')%>~<%= @task.finish_time.to_datetime.strftime('%Y/%m/%d %H:%M:%S')%></span>です</strong></h2>
+			<% end %>
+			<% @attend =Attendence.find_by(user_id: current_user.id,task_content_id: @task.id) %>
+			<% if current_user.attendences.present? %>
+				<% if @task.start_time.to_datetime.strftime('%Y/%m/%d %H:%M:%S') > Time.current.in_time_zone('Tokyo').to_datetime.strftime('%Y/%m/%d %H:%M:%S') %>
 					まだ授業時間ではないため出席管理は行えません。
-				<% elsif (@task.start_time.to_datetime.strftime('%Y/%m/%d %H:%M:%S') > Time.current.in_time_zone('Tokyo').to_datetime.strftime('%Y/%m/%d %H:%M:%S') || Time.current.in_time_zone('Tokyo').to_datetime.strftime('%Y/%m/%d %H:%M:%S') > @task.finish_time.to_datetime.strftime('%Y/%m/%d %H:%M:%S')) %>
-					本日の出席管理は終わりました。欠席扱いとします
+				<% elsif (@task.start_time.to_datetime.strftime('%Y/%m/%d %H:%M:%S') > Time.current.in_time_zone('Tokyo').to_datetime.strftime('%Y/%m/%d %H:%M:%S') || Time.current.in_time_zone('Tokyo').to_datetime.strftime('%Y/%m/%d %H:%M:%S') > @task.finish_time.to_datetime.strftime('%Y/%m/%d %H:%M:%S')) && @attend.is_attended != true %>
+					本日の出席時間は終わりました。欠席扱いとします
+				<% elsif @attend.is_attended == true %>
+					出席済みです
 				<% else %>
-					<%= form_with(model:Attendence.new,url:public_attendences_path,method: :post,local: true) do |f| %>
+					<%= form_with(model:@attend,url:public_attendence_path(@attend),method: :patch,local: true) do |f| %>
 						<%= f.hidden_field :task_content_id, value: @task.id %>
 						<%= f.hidden_field :user_id, value: current_user.id%>
 						<%= f.label :出席 %>
@@ -27,8 +25,9 @@ show
 						<%= f.submit :出席確認する %>
 					<% end %>
 				<% end %>
-			<% else %>
-				履修されている授業は存在しません
 			<% end %>
-		</div>
+		<% else %>
+			履修されている授業は存在しません
+		<% end %>
+	</div>
 </div>

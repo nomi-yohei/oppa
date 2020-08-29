@@ -7,6 +7,7 @@ class Public::ClassTasksController < ApplicationController
 
   def show
     @id =params[:id]
+    @class_task =ClassTask.find_by(id: @id)
   	@task =TaskContent.find_by(task_times: @id)
   end
 end

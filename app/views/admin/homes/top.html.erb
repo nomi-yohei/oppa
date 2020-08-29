@@ -1,12 +1,12 @@
 <h1>Admin::Homes#top</h1>
 <p>Find me in app/views/admin/homes/top.html.erb</p>
 
-
+<% binding.pry %>
 <div class ="container" style="margin-top: 30px;">
   <%= month_calendar events: @class_task do |date| %>
     <%= link_to admin_class_task_path(date) do %>
       <div class="date-day">
-         <%= date.day %><br>
+         <%= date.day %>:<br>
           <% TaskContent.where(task_times: date).each do |f| %>
             <%= f.name %>
           <% end %>
