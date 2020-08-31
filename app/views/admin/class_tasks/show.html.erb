@@ -1,1 +1,75 @@
 show.html.erb
+<div class="container">
+	<% @task =TaskContent.find_by(task_times: params[:id]) %>
+	<% if @task != nil %>
+	<div class="row">
+		<div class="col-xs-12">
+      		<h2>本日の授業</h2>
+  			<table class='table'>
+    			<thead>
+     				<tr>
+        				<th>授業時間</th>
+                <th>授業名</th>
+                <th>出欠確認</th>
+                <th>履修者人数</th>
+    				</tr>
+    			</thead>
+				<tbody>
+          <% TaskContent.where(task_times: params[:id]).order(start_time: "ASC").each do |f| %>
+            <% @attend = Attendence.find_by(task_content_id: f.id) %>
+        			<tr>
+         				<td><%= f.start_time.strftime('%Y/%m/%d %H:%M:%S') %>~</td>
+                <% if @attend != nil %>
+          				<td><%= f.name %></td>
+                  <td><%= form_with(url:admin_attendence_path(@attend),method: :get,local: true) do |form| %>
+                        <%= form.hidden_field :task,value: params[:id] %>
+                        <%= form.hidden_field :class,value: f.class_task_id %>
+                        <%= form.submit :出血確認を行う %>
+                      <% end %>
+                  </td>
+                  <td><%= Attendence.where(task_content_id: f.id).count %></td>
+                <% else %>
+                  <td><%= f.name %></td>
+                  <td>履修者は存在しません</td>
+                  <td>0</td>
+                <% end %>
+        			</tr>
+        	<% end %>
+				</tbody>
+			</table>
+		<% else %>
+		登録されている授業はありません
+		<% end %>
+			<div style="text-align: center;">
+      			<%#= paginate User.all, class: "pagenate" %>
+ 			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 
+<tbody>
+          <%# User.all.each do |f| %>
+            <%# Attendence.where(user_id: f.id,task_content_id: @task.id ).each do |user| %>
+              <%# @attend = Attendence.find_by(user_id: user.user_id,task_content_id: @task.id )%>
+                  <tr>
+                    <td><%#= f.my_number %></td>
+                      <td><%#= f.name %></td>
+                    <td><%#= f.email %></td>
+                    <td><%#= f.my_grade %></td>
+                    <%# if @attend.present? %>
+                      <%# if @attend.is_attended == true %>
+                        <td>出席</td>
+                      <%# else %>
+                        <td>欠席</td>
+                      <%# end %>
+                    <%# end %>
+                  </tr>
+                <%# end %>
+              <%# end %>
+        </tbody>
+
+
+
+ -->
+

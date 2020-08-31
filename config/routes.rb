@@ -1,22 +1,25 @@
 Rails.application.routes.draw do
+  namespace :public do
+    resources :contacts
+  end
+    # 送信完了画面
   root 'homes#top'
   get "homes/about" =>"homes#about" ,as: "about"
-  namespace :public do
+  scope module: 'public' do
      resource :users, only: [:show]
      resources :class_tasks,only: [:index,:show]
+      # resources :attendences,only: [:show]
+
      resources :centers,only: [:create,:update,:destory]
        post "centers/all_up", to: "centers#all_up",as: "all_up"
-     resources :attendences,only: [:update]
+     resources :attendences,only: [:update,:show]
   end
-  # devise_for :admin_users
-  # devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
 
   namespace :admin do
     get 'homes/top'
     resources :class_tasks, only:[:new,:create,:update,:show]
-    resources :users,only:[:index]
+    resources :users,only:[:index,:show]
+    resources :attendences,only:[:show]
       devise_for :admin_users, controllers: {
       sessions: 'admin/admin_users/sessions',
       registrations: 'admin/admin_users/registrations',

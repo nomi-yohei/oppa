@@ -26,8 +26,21 @@
 			</table>
 		</div>
 	</div>
-	<h2>履修しているかもく</h2>
-	<% @tasks.each do |cart| %>
-		<%= cart.class_task.name %>$</td>
-	<% end %>
+	<span><strong style="font-size: 20px;">下記が履修科目です</strong></span><br>
+    <table class='table table-bordered'>
+       	<thead>
+       		<tr>
+           		<th>履修科目</th>
+            	<th>担当教授名</th>
+          	</tr>
+        </thead>
+        <tbody>
+        	<% current_user.centers.all.each do |f| %>
+          		<tr>
+            		<td><%= f.class_task.name %></td>
+            		<td><%= f.class_task.teacher_name %></td>
+         		</tr>
+         	<% end %>
+        </tbody>
+    </table>
 </div>

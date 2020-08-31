@@ -1,47 +1,51 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-xs-4">
+    <div class="col-xs-3">
       <% if TaskContent.present? %>
         <div style="margin: 75px 0px;">
-          <%= form_with(model:@center, url:public_centers_path,method: :post ,local:true) do |f|%>
+          <%= form_with(model:@center, url:centers_path,method: :post ,local:true) do |f|%>
+            <span><strong style="font-size: 20px;">下記から履修したものをお選びください</strong></span><br>
             <% ClassTask.all.each do |status| %>
-              <% if !Center.where(user_id:current_user ,class_task_id: status.id) %>
-              <span><strong style="font-size: 20px;">下記から履修したものをお選びください</strong></span>
+              <% if !Center.where(user_id:current_user ,class_task_id: status.id).exists? %>
                 <%= f.radio_button :class_task_id, status.id%><%= status.name %><br>
               <% end %>
             <% end %>
-            <% if Center.all.count != ClassTask.all.count %>
+            <% if current_user.centers.all.count != ClassTask.all.count %>
               <%= f.submit "1ずつ履修登録します"%>
             <% end %>
           <% end %>
         </div>
         <% if !current_user.centers.present? %>
           <div style="margin-top: 50px;">全て履修された方はしたからお願いします<br>
-            <%= link_to "全て履修している" ,public_all_up_path ,method: :post,class:"btn btn-success plp" %>
+            <%= link_to "全て履修している" ,all_up_path ,method: :post,class:"btn btn-success plp" %>
           </div>
-        <% else %>
-          <span><strong style="font-size: 20px;">下記が履修科目です</strong></span><br>
-            <% current_user.centers.all.each do |f| %>
-              <%= f.class_task.name %>
-            <% end %>
-          <% end %>
+        <% end %>
+      <% end %>
+      <% if TaskContent.all.count == Attendence.where(user_id:current_user.id) %>
+        履修できるものは存在しません
       <% end %>
     </div>
     <div class="col-xs-8">
       <%= month_calendar events: @class_task do |date| %>
-        <%= link_to public_class_task_path(date) do %>
-          <div class="date-day">
-            <%= date.day %><br>
+        <div class="date-day">
+          <%= date.day %><br>
+          <% b =0 %>
             <% TaskContent.where(task_times: date).each do |f| %>
               <% if current_user.attendences.present? %>
                 <% @attend = Attendence.find_by(user_id: current_user,task_content_id: f.id) %>
-                <%# binding.pry %>
-                <%= @attend.task_content.name %>
+                <% if @attend != nil %>
+                  <% b +=1 %>
+                    <%#= @attend.task_content.name %>
+                <% end %>
               <% end %>
             <% end %>
-          </div>
-        <% end %>
+            <% if b >0 %>
+              <%= link_to class_task_path(date) do %>
+                本日の授業は<%= b %>コマです
+              <% end %>
+            <% end %>
+        </div>
       <% end %>
     </div>
   </div>

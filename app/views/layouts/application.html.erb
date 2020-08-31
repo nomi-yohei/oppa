@@ -18,26 +18,24 @@
     </nav>
     <nav>
       <ul class="nav navbar-nav navbar-right" style="margin-right: 30px;">
-        <li><%= link_to 'マイページ',public_users_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
-          <li><%= link_to "授業日程" ,public_class_tasks_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
-           <li><%= link_to 'カート', class: 'glyphicon glyphicon-edit sign_up' %></li>
-        <li>
-             <%= link_to"logout",destroy_user_session_path ,method: :delete,class: "glyphicon glyphicon-share" %>
-              </li>
-            </ul>
+        <li><%= link_to 'マイページ',users_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
+        <li><%= link_to "授業日程" ,class_tasks_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
+        <li><%= link_to"logout",destroy_user_session_path ,method: :delete,class: "glyphicon glyphicon-share" %></li>
+      </ul>
           </nav>
         </header>
         <% elsif admin_admin_user_signed_in? %>
         <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
     <nav class='nav navbar-nav navbar-left' >
-      <%= link_to root_path do %>
+      <%= link_to admin_homes_top_path do %>
       <span style='color: white;font-size: 30px;'>Nacanocake</span>
       <% end %>
     </nav>
     <nav>
       <ul class="nav navbar-nav navbar-right">
-          <li><%= link_to '授業者一覧',admin_users_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
+          <li><%= link_to '履修者一覧',admin_users_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
+          <li><%= link_to '授業日程',admin_homes_top_path,class: 'glyphicon glyphicon-edit' %></li>
           <li><%= link_to '授業追加', new_admin_class_task_path,class: 'glyphicon glyphicon-edit sign_up' %></li>
           <li><%= link_to 'ログアウト', destroy_admin_admin_user_session_path,method: :delete ,class: 'glyphicon glyphicon-log-in sign_in'%></li>
         </ul>

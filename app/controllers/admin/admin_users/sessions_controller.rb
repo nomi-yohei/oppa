@@ -15,7 +15,7 @@ def after_sign_in_path_for(resource)
   # If you have extra params to permit, append them to the sanitizer.
   private
   def configure_permitted_parameters
-     devise_parameter_sanitizer.permit(:sign_in, keys: [:email,:password])
+     devise_parameter_sanitizer.permit(:sign_in, keys: [:email,:password,:my_number])
    end
   # GET /resource/sign_in
   # def new

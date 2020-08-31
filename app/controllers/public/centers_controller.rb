@@ -31,7 +31,7 @@ class Public::CentersController < ApplicationController
 					end
 				end
 			end
-		redirect_to public_users_path
+		redirect_to users_path
 	end
 	def order_params
     	params.require(:center).permit(:class_task_id)

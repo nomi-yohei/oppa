@@ -52,7 +52,12 @@
 # 		}
 # 	]
 	# )
+# AdminUser.create!(
+# 	email: "a@bc",
+# 	password:"123321"
+# )
 AdminUser.create!(
-	email: "a@bc",
-	password:"123321"
+	email: "aa@bc",
+	password:"123456",
+	my_number:"123456789"
 )

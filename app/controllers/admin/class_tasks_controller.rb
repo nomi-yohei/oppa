@@ -9,7 +9,6 @@ class Admin::ClassTasksController < ApplicationController
   		b =params[:class_task][:times].to_date
       v =params[:class_task][:start].to_datetime.in_time_zone('Tokyo').to_datetime
       z =params[:class_task][:finish].to_datetime.in_time_zone('Tokyo').to_datetime
-
   		12.times do |n|
 			 TaskContent.create!(
 				class_task_id: @class_task.id,
@@ -22,6 +21,9 @@ class Admin::ClassTasksController < ApplicationController
         v += 7
         z += 7
 		  end
+      def show
+        @task =TaskContent.find_by(task_times: params[:id])
+      end
     redirect_to admin_homes_top_path
 	end
   private
