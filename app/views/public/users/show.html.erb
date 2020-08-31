@@ -3,12 +3,8 @@
 	<h2>maypage</h2>
 	<h3>登録情報</h3>
 	<div class="row">
-		<div class="col-xs-10">
+		<div class="col-xs-8" style="margin-top: 40px;">
 			<table class="table table-bordered">
-				<thead>
-					<tr>
-					</tr>
-				</thead>
 				<tbody>
 					<tr>
 						<td class="col-xs-3 p">氏名</td>
@@ -24,9 +20,7 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
-	</div>
-	<span><strong style="font-size: 20px;">下記が履修科目です</strong></span><br>
+		<span><strong style="font-size: 20px;">下記が履修科目です</strong></span><br>
     <table class='table table-bordered'>
        	<thead>
        		<tr>
@@ -44,3 +38,29 @@
         </tbody>
     </table>
 </div>
+	<div class="col-xs-4">
+		<h3>質問がある方はこちらから</h3>
+		<%= form_with(model: Inquiry.new,url:inquiry_index_path,method: :post, local: true) do |f| %>
+			<div class="form-group">
+    			<%= f.label :name, '名前' %>
+    			<%= f.text_field :name, class: 'form-control' %>
+  			</div>
+ 			<div class="form-group">
+    			<%= f.label :email, '返信先メールアドレス' %>
+    			<%= f.text_field :email, class: 'form-control' %>
+  			</div>
+  			<div class="form-group">
+   				<%= f.label :subject, '質問授業' %>
+   				<%= f.text_field :subject, class: 'form-control' %>
+			</div>
+			<div class="form-group">
+   				<%= f.label :message, '質問内容' %>
+   				<%= f.text_area :message, size: '10x10', class: 'form-control' %>
+			</div>
+			<%= f.submit '送信' %>
+		<% end %>
+	</div>
+</div>
+</div>
+
+
