@@ -1,0 +1,25 @@
+
+<div class="container">
+	<h1>授業追加</h1>
+
+<%= form_with(model: @class_task,url:admin_class_tasks_path,local: true)do |f| %>
+<%= f.label :name, "授業名:" %>
+<%= f.text_field :name %>
+<%= f.label :teacher_name, "教授名" %>
+<%= f.text_field :teacher_name %>
+<%= f.date_field :times, value: Time.now %><br>
+<%= f.label :授業回数 %>:
+<%= f.radio_button :count, 12 ,checked: true%>
+<%= f.label "12回"%>
+<%= f.radio_button :count, 13 %>
+<%= f.label "13回"%><br>
+
+<%= f.label :授業時間 %>:<br>
+授業開始時間
+<%= f.datetime_field :start,value: DateTime.now %>
+<br>
+授業終了時間
+<%= f.datetime_field :finish,value: DateTime.now%>
+<%= f.submit :新規登校 %>
+<% end %>
+</div>

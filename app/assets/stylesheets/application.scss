@@ -14,3 +14,15 @@
  *= require_tree .
  *= require_self
  */
+ @import "bootstrap-sprockets";
+@import "bootstrap";
+
+.opa{
+	margin-top:50px;
+}
+a:link	{
+	color : #000000;
+}
+.plp{
+	margin:10px auto;
+}

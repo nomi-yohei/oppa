@@ -1,0 +1,28 @@
+<div class="container">
+	<div class="row">
+		<table class='table'>
+    		<thead>
+     			<tr>
+                    <th>学籍番号</th>
+        			<th>生徒名</th>
+        			<% 13.times do |f| %>
+        			<th><%= f +=1 %></th>
+        			<% end %>
+    			</tr>
+    		</thead>
+			<tbody>
+				<% @center.each do |center|%>
+        		<tr>
+        			<td><%= center.user.my_number %></td>
+     				<td><%= center.user.name %></td>
+         				<% center.user.attendences.order(:id).each do |f| %>
+         					<% if f.task_content.class_task_id == params[:id].to_i  %>
+         						<td><%= f.is_attended_i18n %></td>
+         					<% end %>
+                		<% end %>
+                	<% end %>
+        		</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

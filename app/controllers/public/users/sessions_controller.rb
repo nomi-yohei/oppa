@@ -7,7 +7,24 @@ class Public::Users::SessionsController < Devise::SessionsController
   # def new
   #   super
   # end
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  # GET /resource/sign_up
+  # def new
+  #   super
+  # end
+# unless @end_user =EndUser.where(is_vaild: false)
+  def after_sign_in_path_for(resource)
+  users_path
+ end
+  def after_sign_out_path_for(resource)
+  root_path
+  end
 
+private
+
+ def configure_permitted_parameters
+     devise_parameter_sanitizer.permit(:sign_in, keys: [:my_number,:password])
+   end
   # POST /resource/sign_in
   # def create
   #   super

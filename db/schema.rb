@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_23_071025) do
+ActiveRecord::Schema.define(version: 2020_08_31_085242) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -20,13 +20,22 @@ ActiveRecord::Schema.define(version: 2020_08_23_071025) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "my_number"
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "attendences", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "task_content_id", null: false
+    t.boolean "is_attended"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "centers", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "class_task_id"
+    t.integer "user_id", null: false
+    t.integer "class_task_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["class_task_id"], name: "index_centers_on_class_task_id"
@@ -37,6 +46,26 @@ ActiveRecord::Schema.define(version: 2020_08_23_071025) do
     t.datetime "start_time"
     t.string "name", null: false
     t.string "teacher_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "inquiries", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "subject"
+  end
+
+  create_table "task_contents", force: :cascade do |t|
+    t.text "content"
+    t.integer "class_task_id", null: false
+    t.string "name", null: false
+    t.date "task_times", null: false
+    t.datetime "start_time", null: false
+    t.datetime "finish_time", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

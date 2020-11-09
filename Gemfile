@@ -66,7 +66,6 @@ gem "refile-mini_magick"
 gem "paranoia"
 gem 'bootstrap-sass', '~> 3.4.1'
 gem 'jquery-rails'
-gem 'pry-byebug'
 gem 'enum_help'
 gem 'rails-i18n'
 gem 'jp_prefecture'

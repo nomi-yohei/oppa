@@ -1,0 +1,14 @@
+show.html.erb
+
+
+<%= month_calendar events: @class_task do |date| %>
+    <div class="date-day">
+        <%= date.day %><br>
+        <% TaskContent.where(task_times: date).each do |f| %>
+           	<% if @user.attendences.present? %>
+           		<% @attend = Attendence.find_by(user_id: @user,task_content_id: f.id) %>
+                <%= @attend.task_content.name %>
+            <% end %>
+        <% end %>
+    </div>
+<% end %>

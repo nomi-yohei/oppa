@@ -1,0 +1,10 @@
+all.html.erb
+<div class="container">
+	<div class="row">
+		<%= ClassTask.all.each do |f| %>
+		<%= f.name %>
+		<% end %>
+
+	</div>
+	
+</div>

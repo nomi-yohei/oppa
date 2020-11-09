@@ -1,0 +1,43 @@
+<h1>Admin::Attendences#show</h1>
+<p>Find me in app/views/admin/attendences/show.html.erb</p>
+<div class="container">
+	<% if @task != nil %>
+	<div class="row">
+		<div class="col-xs-12">
+      		<h2>履修者</h2>
+  			<table class='table'>
+    			<thead>
+     				<tr>
+        				<th>学籍番号</th>
+        				<th>氏名</th>
+        				<th>メールアドレス</th>
+        				<th>学年</th>
+        				<th>出席</th>
+    				</tr>
+    			</thead>
+				<tbody>
+					<% User.all.each do |f| %>
+						<% Attendence.where(user_id: f.id,task_content_id: @task.id ).each do |user| %>
+							<% @attend = Attendence.find_by(user_id: user.user_id,task_content_id: @task.id )%>
+        					<tr>
+         						<td><%= f.my_number %></td>
+          						<td><%= f.name %></td>
+        						<td><%= f.email %></td>
+        						<td><%= f.my_grade %></td>
+        						<% if @attend.present? %>
+        							<td><%= @attend.is_attended_i18n %></td>
+        						<% end %>
+        					</tr>
+        				<% end %>
+        			<% end %>
+				</tbody>
+			</table>
+		<% else %>
+		登録されている授業はありません
+		<% end %>
+			<div style="text-align: center;">
+      			<%#= paginate User.all, class: "pagenate" %>
+ 			</div>
+		</div>
+	</div>
+</div>

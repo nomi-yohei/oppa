@@ -1,0 +1,12 @@
+
+
+<div class ="container" style="margin-top: 30px;">
+  <h3>本日は<%= DateTime.now.in_time_zone('Tokyo').to_datetime.strftime('%Y/%m/%d') %>です</h3>
+  <%= month_calendar events: @class_task do |date| %>
+    <%= link_to class_task_path(date) do %>
+      <div class="date-day">
+         <%= date.day %><br>
+      </div class="seet-count">
+      <% end %>
+  <% end %>
+</div>

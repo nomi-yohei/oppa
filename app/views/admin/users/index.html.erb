@@ -1,0 +1,32 @@
+<h1>Admin::Users#index</h1>
+<p>Find me in app/views/admin/users/index.html.erb</p>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+      		<h2>履修者</h2>
+  			<table class='table'>
+    			<thead>
+     				<tr>
+        				<th>学籍番号</th>
+        				<th>氏名</th>
+        				<th>メールアドレス</th>
+        				<th>学年</th>
+    				</tr>
+    			</thead>
+				<tbody>
+					<% @users.each do |user| %>
+        				<tr>
+         					<td><%=  user.my_number %></td>
+          					<td><%= user.name %></td>
+        					<td><%= user.email %></td>
+        					<td><%= user.my_grade %></td>
+        				</tr>
+        			<% end %>
+				</tbody>
+			</table>
+			<div style="text-align: center;">
+      			<%#= paginate User.all, class: "pagenate" %>
+ 			</div>
+		</div>
+	</div>
+</div>

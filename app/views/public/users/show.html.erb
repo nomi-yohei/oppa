@@ -1,10 +1,67 @@
-<h1>Public::Users#show</h1>
-<p>Find me in app/views/public/users/show.html.erb</p>
-<%= flash[:notice] %>
-<%= current_user.name %>
+<div class="container">
+	<h2>maypage</h2>
+	<h3>登録情報</h3>
+	<div class="row">
+
+		<div class="col-xs-8" style="margin-top: 40px;">
+			<%= link_to "個人情報編集",edit_users_path,class:"btn btn-success" %>
+			<table class="table table-bordered">
+				<tbody>
+					<tr>
+						<td class="col-xs-3 p">氏名</td>
+						<td style="text-align: center;"><%= @end_user.name %></td>
+					</tr>
+					<tr>
+						<td class="col-xs-3 p">学籍番号</td>
+						<td style="text-align: center;"><%= @end_user.my_number %></td>
+					</tr>
+					<tr>
+						<td class="col-xs-3 p">学年</td>
+						<td style="text-align: center;"><%= @end_user.my_grade %>年</td>
+					</tr>
+				</tbody>
+			</table>
+		<span><strong style="font-size: 20px;">下記が履修科目です</strong></span><br>
+    <table class='table table-bordered'>
+       	<thead>
+       		<tr>
+           		<th>履修科目</th>
+            	<th>担当教授名</th>
+          	</tr>
+        </thead>
+        <tbody>
+        	<% current_user.centers.all.each do |f| %>
+          		<tr>
+            		<td><%= f.class_task.name %></td>
+            		<td><%= f.class_task.teacher_name %></td>
+         		</tr>
+         	<% end %>
+        </tbody>
+    </table>
+</div>
+	<div class="col-xs-4">
+		<h3>質問がある方はこちらから</h3>
+		<%= form_with(model: Inquiry.new,url:inquiry_index_path,method: :post,remote: true) do |f| %>
+			<div class="form-group">
+    			<%= f.label :name, '名前' %>
+    			<%= f.text_field :name, class: 'form-control' %>
+  			</div>
+ 			<div class="form-group">
+    			<%= f.label :email, '返信先メールアドレス' %>
+    			<%= f.text_field :email, class: 'form-control' %>
+  			</div>
+  			<div class="form-group">
+   				<%= f.label :subject, '質問授業' %>
+   				<%= f.text_field :subject, class: 'form-control' %>
+			</div>
+			<div class="form-group">
+   				<%= f.label :message, '質問内容' %>
+   				<%= f.text_area :message, size: '10x10', class: 'form-control' %>
+			</div>
+			<%= f.submit '送信' %>
+		<% end %>
+	</div>
+</div>
+</div>
 
 
-
-<% @tasks.each do |cart| %>
-	<%= cart.class_task.name %>$</td>
-	<% end %>

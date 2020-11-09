@@ -1,38 +1,52 @@
-<h1>Public::ClassTasks#index</h1>
-<p>Find me in app/views/public/class_tasks/index.html.erb</p>
-<%= link_to "両方とも履修している" ,public_all_up_path ,method: :post %>
 
-
-<%= form_with(model:@center, url:public_centers_path,method: :post ,local:true) do |f|%>
-<%#= form_with(model:@order, url: order_confirm_path,method: :post,local: true) do |f| %>
-   <ul style="list-style:none;">
-     <li><%= @p.name %><%= f.radio_button :class_task_id, 1,checked: true%></li>
-     <li><%= @c.name %><%= f.radio_button :class_task_id, 2%></li>
-   </ul>
- <%= f.submit "履修しました"%>
-<% end %>
-
-
-<%= month_calendar events: @class_task do |date| %>
-      <%# if date >= Date.today %>
-        <%#= link_to day_path(date) do %>
-          <div class="date-day">
-            <%= date.day %>
-          </div class="seet-count">
-          <div>
-            <%# if reservation.count != 0 %>
-              <%#= reservation_count(reservation) %>
-            <%# end %>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-3">
+      <% if TaskContent.present? %>
+        <div style="margin: 75px 0px;">
+          <%= form_with(model:@center, url:centers_path,method: :post ,local:true) do |f|%>
+            <span><strong style="font-size: 20px;">下記から履修したものをお選びください</strong></span><br>
+            <% ClassTask.all.each do |status| %>
+              <% if !Center.where(user_id:current_user ,class_task_id: status.id).exists? %>
+                <%= f.radio_button :class_task_id, status.id,checked:true%><%= status.name %><br>
+              <% end %>
+            <% end %>
+            <% if current_user.centers.all.count != ClassTask.all.count %>
+              <%= f.submit "1ずつ履修登録します",data: { confirm: "登録すると変更できませんがよろしいですか" }%>
+            <% end %>
+          <% end %>
+        </div>
+        <% if !current_user.centers.present? && TaskContent.all.present? %>
+          <div style="margin-top: 50px;">全て履修された方はしたからお願いします<br>
+            <%= link_to "全て履修している" ,all_up_path ,method: :post,class:"btn btn-success plp" %>
           </div>
-        <%# end %>
-      <%# else %>
+        <% end %>
+      <% end %>
+      <% if TaskContent.all.count == Attendence.where(user_id:current_user.id) %>
+        履修できるものは存在しません
+      <% end %>
+    </div>
+    <div class="col-xs-8">
+      <%= month_calendar events: @class_task do |date| %>
         <div class="date-day">
-          <%#= date.day %>
+          <%= date.day %><br>
+          <% b =0 %>
+            <% TaskContent.where(task_times: date).each do |f| %>
+              <% if current_user.attendences.present? %>
+                <% @attend = Attendence.find_by(user_id: current_user,task_content_id: f.id) %>
+                <% if @attend != nil %>
+                  <% b +=1 %>
+                    <%#= @attend.task_content.name %>
+                <% end %>
+              <% end %>
+            <% end %>
+            <% if b >0 %>
+              <%= link_to class_task_path(date) do %>
+                本日の授業は<%= b %>コマです
+              <% end %>
+            <% end %>
         </div>
-        <div class="seet-count">
-          <%# if reservation.count != 0 %>
-          <%#= reservation_count(reservation) %>
-          <%# end %>
-        </div>
-      <%# end %>
-    <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
